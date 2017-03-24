@@ -9,14 +9,16 @@ if(!defined("SPECIALCONSTANT")) die("Acceso denegado");
 // PUT: Para editar recursos
 // DELETE: Para eliminar recursos
 
-$app->get("/clientes/", function() use($app)
+$app->get("/", function() use($app)
 {
 	$cnn = Conexion::DameAcceso();
 	$sentencia = $cnn->prepare('select * from clientes');
 	
 	$sentencia->execute();
 	$res = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-		
+	
+	var_dump($res);
+
 	$app->response->headers->set("Content-type", "application/json");
 	$app->response->status(200);
 	$app->response->body(json_encode($res));
@@ -40,18 +42,18 @@ $app->get("/clientes/:id", function($id) use($app)
 	}
 });
 // POST: Para crear recursos
-$app->post("/personas/", function() use($app)
+$app->post("/clientes/", function() use($app)
 {
 	$nombre = $app->request->post("nombre");
-	$dni = $app->request->post("dni");
-	$apellido = $app->request->post("apellido");
-	$foto = "pordefecto.png";//$app->request->post("foto");
+	//$dni = $app->request->post("dni");
+	//$apellido = $app->request->post("apellido");
+	//$foto = "pordefecto.png";//$app->request->post("foto");
 	$cnn = Conexion::DameAcceso();
-	$sentencia = $cnn->prepare('CALL InsertarPersona (?,?,?,?)');
+	$sentencia = $cnn->prepare("insert into clientes (nombre) values ($nombre)");
 	
 	
 	$status = 200;
-	if ($sentencia->execute(array($nombre, $apellido, $dni, $foto)))
+	if ($sentencia->execute(array($nombre)))//, $apellido, $dni, $foto)))
 		$res = array("rta" => true);	
 	else{
 		$res = array("rta" => false);

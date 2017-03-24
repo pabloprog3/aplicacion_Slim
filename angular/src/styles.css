@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+#main{
+	background-color: rgb(30, 80, 120);
+	text-align: center;
+}
+
+.titulo{
+	color: white;
+}
